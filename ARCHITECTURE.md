@@ -166,9 +166,7 @@ Key endpoints for the pricing engine and user management.
 | `/api/pricing/generate/:id` | POST | User | Triggers the AI multi-agent pricing analysis. |
 | `/api/pricing/recommendations` | GET | User | Retrieves all historical recommendations. |
 | `/api/pricing/recommendation/:id` | PATCH | User | Updates status (Approve/Reject) of a price. |
-| `/api/pricing/export` | GET | User | Exports all recommendations as a CSV file. |
 | `/api/pricing/audit` | GET | User | Fetches system-wide audit logs for the tenant. |
-| `/health` | GET | None | System health check (Uptime, DB status, API status). |
 
 ---
 
