@@ -1,2 +1,11 @@
-client/node_modules
-server/node_modules
+node_modules/
+.next/
+.env
+.env.local
+*.log
+dist/
+build/
+.DS_Store
+.git
+server/.env
+server/First.txt
