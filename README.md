@@ -30,20 +30,23 @@ By splitting responsibilities into specialized agents (Market Intelligence, Dema
 - Node.js (v18+)
 - MongoDB Atlas account (or local MongoDB)
 - Groq API Key
+- Docker (Optional)
 
-### Installation
+### Option 1: Docker (One-Command Setup)
+The easiest way to run the entire stack (Frontend, Backend, and Database):
+```bash
+docker-compose up
+```
+
+### Option 2: Manual Installation
 
 1. **Navigate to the server directory:**
    ```bash
-   cd code/server
-   ```
-
-2. **Install dependencies:**
-   ```bash
+   cd server
    npm install
    ```
 
-3. **Environment Configuration:**
+2. **Environment Configuration:**
    Create a `.env` file in the `server` root (copy from `.env.example`):
    ```env
    PORT=5000
@@ -53,11 +56,10 @@ By splitting responsibilities into specialized agents (Market Intelligence, Dema
    SENDGRID_API_KEY=your_sendgrid_key
    ```
 
-4. **Start the server:**
+3. **Start the server:**
    ```bash
    npm start
    ```
-   The API will be live at `http://localhost:5000`.
 
 ---
 
@@ -66,18 +68,31 @@ By splitting responsibilities into specialized agents (Market Intelligence, Dema
 > [!NOTE]
 > Screenshots below represent the integrated frontend interacting with this backend.
 
-1. **AI Strategy Dashboard**: Overview of all SKUs and their current market standing.
-2. **Agent Reasoning View**: Detailed breakdown of how the Market, Demand, and Inventory agents reached a conclusion.
-3. **Product Inventory Management**: Real-time stock levels and COGS tracking.
-4. **Pricing Recommendations**: A list of "Pending" price changes waiting for human approval.
-5. **Audit Logs**: Full history of who changed what price and why.
-6. **Multi-Tenant Settings**: Organization-level configuration for margin floors and strategy aggressiveness.
+1. **Landing Page**: Modern hero section highlighting AI-driven clarity.
+   ![Landing Page](./server/landing.png)
+2. **Product Workflow**: Step-by-step breakdown of signal collection to execution.
+   ![Workflow](./server/workflow.png)
+3. **Secure Authentication**: Multi-tenant login interface.
+   ![Login](./server/login.png)
+4. **Intelligence Dashboard**: Real-time revenue optimization and active node tracking.
+   ![Dashboard](./server/dashboard.png)
+5. **Strategy Lab**: AI-generated pricing recommendations with confidence scores.
+   ![Strategy Lab](./server/recommendations.png)
+6. **Inventory Assets**: Centralized SKU management and profitability analysis.
+   ![Inventory](./server/inventory.png)
+
+---
+
+## 🌟 Bonus Features Implemented
+- **Docker Compose**: One-command local setup for the whole project.
+- **CI/CD Pipeline**: GitHub Actions for automated build checks.
+- **Rate Limiting**: API protection using `express-rate-limit`.
+- **Health Checks**: Observability endpoint at `/health`.
+- **Export Feature**: Download recommendations as a CSV file.
 
 ---
 
 ## 🚧 Known Limitations & Future Roadmap
-
-- **Mocked Scrapers**: Currently uses synthetic data for competitor prices. Integration with real-time web scrapers or APIs (e.g., BrightData) is planned.
-- **Cold Starts**: Initial LLM reasoning can take 1-2 seconds; implementing a caching layer for static market data would improve UI responsiveness.
-- **Sequential Flow**: Agents currently run in sequence. Moving to a parallel execution model would reduce latency by 40%.
-- **Human-in-the-loop**: High-risk price changes (>20% shift) currently require manual approval; automated guardrails are in development.
+- **Mocked Scrapers**: Currently uses synthetic data for competitor prices.
+- **Sequential Flow**: Agents currently run in sequence. Parallel execution is planned.
+- **Human-in-the-loop**: High-risk price changes currently require manual approval.
