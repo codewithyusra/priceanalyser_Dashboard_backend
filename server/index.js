@@ -13,17 +13,21 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Middleware - CORS must be before Rate Limiter
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', process.env.FRONTEND_URL || 'http://localhost:3000'],
+  credentials: true
+}));
+
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  max: 2000, // Increased to allow dashboard polling (5 endpoints every 15s)
   message: 'Too many requests from this IP, please try again after 15 minutes'
 });
-
-// Middleware
 app.use(limiter);
-app.use(cors());
 app.use(express.json());
+
 
 // Health Check
 app.get('/health', (req, res) => {

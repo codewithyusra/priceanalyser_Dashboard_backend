@@ -5,7 +5,42 @@ const User = require('../models/User');
 const Organization = require('../models/Organization');
 const { sendResetEmail } = require('../services/emailService');
 
-const { auth } = require('../middleware/auth');
+const { auth, authorize } = require('../middleware/auth');
+
+
+// @route   POST api/auth/create-user
+// @desc    Create a new user (Pricing Analyst or Admin) in the current user's organization
+// @access  Private (Admin only)
+router.post('/create-user', auth, authorize(['Admin']), async (req, res) => {
+  const { email, password, role } = req.body;
+
+  try {
+    let user = await User.findOne({ email });
+    if (user) return res.status(400).json({ message: 'User already exists' });
+
+    user = new User({
+      email,
+      password,
+      organizationId: req.user.orgId,
+      role: role || 'Pricing Analyst',
+    });
+
+    await user.save();
+
+    res.json({
+      message: `${user.role} created successfully`,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        organizationId: user.organizationId,
+      },
+    });
+  } catch (err) {
+    console.error('Create User Error:', err);
+    res.status(500).json({ message: 'Server error creating user' });
+  }
+});
 
 
 // Helper to sign JWT with Promise
